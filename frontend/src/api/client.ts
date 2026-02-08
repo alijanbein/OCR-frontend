@@ -38,6 +38,15 @@ export const api = {
     return handleResponse<DocumentDetailResponse>(response);
   },
 
+  deleteDocument: async (id: string): Promise<void> => {
+    const response = await fetch(`${API_BASE_URL}/api/docs/${id}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to delete document: ${response.statusText}`);
+    }
+  },
+
   search: async (
     query: string,
     mode: "keyword" | "semantic" | "hybrid" = "hybrid",

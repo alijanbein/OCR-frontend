@@ -10,14 +10,14 @@ export interface PageItem {
 }
 
 export interface DocumentListItem {
-  id: string;
+  document_id: string;
   filename: string;
   pages_count: number;
   uploaded_at: string;
 }
 
 export interface DocumentDetailResponse {
-  id: string;
+  document_id: string;
   filename: string;
   pages: PageItem[];
 }
