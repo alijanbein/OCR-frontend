@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import Swal from "sweetalert2";
 
 interface UploadBoxProps {
   onUpload: (file: File) => void;
@@ -7,6 +8,17 @@ interface UploadBoxProps {
 
 const UploadBox: React.FC<UploadBoxProps> = ({ onUpload, isUploading }) => {
   const [dragActive, setDragActive] = useState(false);
+
+  const showError = (message: string) => {
+    Swal.fire({
+      title: "Invalid File",
+      text: message,
+      icon: "error",
+      background: "#242424",
+      color: "#fff",
+      confirmButtonColor: "#3085d6",
+    });
+  };
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -28,7 +40,7 @@ const UploadBox: React.FC<UploadBoxProps> = ({ onUpload, isUploading }) => {
         if (file.type === "application/pdf") {
           onUpload(file);
         } else {
-          alert("Please upload a PDF file.");
+          showError("Please upload a valid PDF file.");
         }
       }
     },
@@ -41,7 +53,9 @@ const UploadBox: React.FC<UploadBoxProps> = ({ onUpload, isUploading }) => {
       if (file.type === "application/pdf") {
         onUpload(file);
       } else {
-        alert("Please upload a PDF file.");
+        showError("Please upload a valid PDF file.");
+        // Reset input so user can try again
+        e.target.value = "";
       }
     }
   };
